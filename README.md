@@ -7,8 +7,8 @@ A collection of common design patterns in C++. Rather than using arbitrary examp
 The Strategy pattern answers to the need to extract an algoritm from a class, allowing both the class and the algorithm to change independently and to replace the algoritm as needed by the program. For example a class implementing a sort() function can benefit from the Strategy pattern since it allows it to change the actual sort algorithm depending on the needs of the user.  
 
 In C++11, implementing the Strategy pattern is trivial as std::function provides all the needed functionalities.  
-[code](https://github.com/de-passage/desing-patterns.cpp/blob/master/include/strategy.cpp)  
-[example](https://github.com/de-passage/desing-patterns.cpp/blob/master/examples/strategy.cpp)  
+[code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/strategy.hpp)  
+[example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/strategy.cpp)  
 
 ## Abstract factory
 
@@ -17,8 +17,8 @@ The Abstract Factory pattern is an interface to instanciate classes inheriting f
 The implementation provided here is completely independant from the target hierarchy. The user creates an AbstractFactory by calling the make_abstract_factory function together with the base type of which the returned pointers will be, the different subclasses that can be instanciated and a function or functor as the only non template parameter. This function will be used to decide which class is actually instanciated when the factory is called. It is expected to return the index (starting from 0) of the class to instanciate in the list of subclasses the abstract factory has been created with.
 
 Note that in this case the target class can only be instanciated through a constructor without arguments, but the class could easily be extended to accept arbitrary constructors.  
-[code](https://github.com/de-passage/desing-patterns.cpp/blob/master/include/abstract_factory.cpp)  
-[example](https://github.com/de-passage/desing-patterns.cpp/blob/master/examples/abstract_factory.cpp)  
+[code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/abstract_factory.hpp)  
+[example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/abstract_factory.cpp)  
 
 ## Visitor
 
@@ -41,8 +41,8 @@ struct Visited {
 };
 ```
 The implementation we propose is thus simply a convenience class that can be inherited to transforms a single-parameter visitor function into a variadic function applying the original visitor to each of its arguments (unrelated note: the implementation is actually a variation of the Template Method pattern). 
-[code](https://github.com/de-passage/desing-patterns.cpp/blob/master/include/visitor.cpp)  
-[example](https://github.com/de-passage/desing-patterns.cpp/blob/master/examples/visitor.cpp)  
+[code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/visitor.hpp)  
+[example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/visitor.cpp)  
 
 ## Observer
 
@@ -51,6 +51,6 @@ The observer pattern, also called publish/subscribe is a common solution to the 
 Consider an hypothetic array of data recording the state of an object as it changes. In the C++ STL, std::vector doesn't inherit from any Observer hierarchy and cannot be used as is in the classic Observer implementation, we would then need to create a new class containing a reference to our vector when in this case the only operation we actualy need to do is a `my_vector.push_back(data)`.  
 
 For additional flexibility it is therefore reasonable to consider any function with an appropriate signature to be an observer. We then only need to store a list of std::functions and call them with the data when needed. In the previous example all we need is then to write a lambda or call std::bind to create a function with the desired signature and behavior. (in the present implementation we also allow objects with an update() member function to be given as is. The Observable::attach() function converts them automatically to the desired std::function)  
-[code](https://github.com/de-passage/desing-patterns.cpp/blob/master/include/observer.cpp)  
-[example](https://github.com/de-passage/desing-patterns.cpp/blob/master/examples/observer.cpp)  
+[code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/observer.hpp)  
+[example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/observer.cpp)  
 
