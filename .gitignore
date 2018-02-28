@@ -1,3 +1,9 @@
+Rakefile
+.*
+build
+bin
+src
+
 # Prerequisites
 *.d
 
