@@ -34,6 +34,10 @@ void Observer2::update(int i) {
 	value = i;
 }
 
+void foo(int, int) {}
+void foo(double) {}
+void bar(int, int) {}
+
 int main() {
 
 	ObservableTest observable;
@@ -44,6 +48,8 @@ int main() {
 	auto i1 = observable.attach(o1);
 	observable.attach(o2);
 	observable.attach(o3);
+	observable.attach([](int a, int b) { foo(a, b); }); //overloaded free functions need to be somehow specified.
+	observable.attach(bar);
 
 	observable.do_something(24, 42);
 

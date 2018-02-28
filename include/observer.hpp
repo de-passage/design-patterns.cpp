@@ -4,7 +4,7 @@
 #include <list>
 #include <functional>
 #include <tuple>
-
+#include <type_traits>
 
 namespace details {
 	template<int I> struct placeholder {};
@@ -24,11 +24,13 @@ struct Observable {
 	template<class ...Args>
 		void notify(Args&&...) const;
 
-	template<class Observer>
+	template<class Observer, class = std::enable_if_t<!std::is_convertible<Observer, std::function<Signature>>::value>>
 		ObserverID attach(Observer&);
 
-	template<class Observer>
+	template<class Observer, class = std::enable_if_t<!std::is_convertible<Observer, std::function<Signature>>::value>>
 		ObserverID attach(const Observer&);
+
+	ObserverID attach(const std::function<Signature>&);
 
 	void detach(const ObserverID&);
 
@@ -45,7 +47,7 @@ namespace details {
 }
 
 template<class Signature>
-template<class Observer>
+template<class Observer, class>
 typename Observable<Signature>::ObserverID Observable<Signature>::attach(const Observer& obs) {
 	std::function<Signature> func(details::build_function(&Observer::update, obs, this));
 	observers.push_front(func);
@@ -53,10 +55,16 @@ typename Observable<Signature>::ObserverID Observable<Signature>::attach(const O
 }
 
 template<class Signature>
-template<class Observer>
+template<class Observer, class>
 typename Observable<Signature>::ObserverID Observable<Signature>::attach(Observer& obs) {
 	std::function<Signature> func(details::build_function(&Observer::update, obs, this));
 	observers.push_front(func);
+	return observers.begin();
+}
+
+template<class Signature>
+typename Observable<Signature>::ObserverID Observable<Signature>::attach(const std::function<Signature>& function) {
+	observers.push_front(function);
 	return observers.begin();
 }
 

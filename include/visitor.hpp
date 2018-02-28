@@ -22,6 +22,7 @@ struct Visitable {
 template<class Visitor>
 struct VisitorFunctor {
   constexpr VisitorFunctor(Visitor& visitor);
+
   template<class T, class...Args>
     void operator()(T&&, Args&&...);
 
@@ -60,35 +61,36 @@ void Visitable<Base>::visit(Visitor&& visitor) {
 template<class Base>
 template<class Visitor>
 void Visitable<Base>::visit(Visitor&& visitor) const {
-  static_cast<const Base*>(this)->accept(VisitorFunctor<Visitor>(visitor));
+  static_cast<const Base*>(this)->accept(VisitorFunctor<Visitor>(std::forward<Visitor>(visitor)));
 }
+
 template<class Visitor>
 constexpr VisitorFunctor<Visitor>::VisitorFunctor(Visitor& visitor) : visitor(visitor) {}
 
 template<class Visitor>
 template<class T, class ...Args>
 void VisitorFunctor<Visitor>::operator()(T&& t, Args&&... args) {
-  visitor(t);
-  operator()(args...);
+  visitor(std::forward<T>(t));
+  operator()(std::forward<Args>(args)...);
 }
 
 template<class Visitor>
 template<class T, class ...Args>
 void VisitorFunctor<Visitor>::operator()(T&& t, Args&&... args) const {
-  visitor(t);
-  operator()(args...);
+  visitor(std::forward<T>(t));
+  operator()(std::forward<Args>(args)...);
 }
 
 
 template<class Visitor>
 template<class T>
 void VisitorFunctor<Visitor>::operator()(T&& t) {
-  visitor(t);
+  visitor(std::forward<T>(t));
 }
 
 template<class Visitor>
 template<class T>
 void VisitorFunctor<Visitor>::operator()(T&& t) const {
-  visitor(t);
+  visitor(std::forward<T>(t));
 }
 #endif// GUARD_VISITOR_HPP__
