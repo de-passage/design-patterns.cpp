@@ -40,7 +40,7 @@ struct Visited {
 		...
 };
 ```
-The implementation we propose is thus simply a convenience class that can be inherited to transforms a single-parameter visitor function into a variadic function applying the original visitor to each of its arguments (unrelated note: the implementation is actually a variation of the Template Method pattern). 
+The implementation we propose is thus simply a convenience class that can be inherited to transforms a single-parameter visitor function into a variadic function applying the original visitor to each of its arguments (unrelated note: the implementation is actually a variation of the Template Method pattern).  
 [code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/visitor.hpp)  
 [example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/visitor.cpp)  
 
