@@ -54,3 +54,8 @@ For additional flexibility it is therefore reasonable to consider any function w
 [code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/observer.hpp)  
 [example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/observer.cpp)  
 
+## Null/Maybe
+
+This pattern answers the problem of returning empty objects in strongly typed languages. It makes sense for some functions to return only if some conditions are met. The Null pattern consists of a container class that may or may not contain a value. The only responsibility of the class is to tell its use whether a valid value is contained within an instance and to give access to it if possible. In this example we implemented the pattern using pointer semantics. An empty object will implicitely convert to false while an object containing a value evaluates to true. The '*' operator can then be used to access the inner value.  
+[code](https://github.com/de-passage/design-patterns.cpp/blob/master/include/maybe.hpp) 
+[example](https://github.com/de-passage/design-patterns.cpp/blob/master/examples/maybe.cpp)  
